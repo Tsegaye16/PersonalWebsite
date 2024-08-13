@@ -2,9 +2,11 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 import postRout from "./routes/post.js";
 
 const app = express();
+dotenv.config();
 // Password = "C2eiCP6flI2xdAqM"
 // User name =abewatsegaye16
 
@@ -13,12 +15,10 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 app.use("/posts", postRout);
 
-const CONNECTION_ULR =
-  "mongodb+srv://abewatsegaye16:C2eiCP6flI2xdAqM@cluster0.ttqzk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-const PORT = 5000;
+const PORT = process.env.PORT;
 
 mongoose
-  .connect(CONNECTION_ULR, {
+  .connect(process.env.CONNECTION_ULR, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

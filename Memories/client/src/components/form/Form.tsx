@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { TextField, Button, Typography, Paper } from "@mui/material";
 import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +23,8 @@ const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
     tags: "",
     selectedFile: "",
   });
+
+  const fileInputRef = useRef<any>(null);
   const classes = useStyle();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -54,6 +56,9 @@ const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
       tags: "",
       selectedFile: "",
     });
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""; // Reset the file input value
+    }
   };
   return (
     <Paper className={classes.paper}>
@@ -103,7 +108,7 @@ const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
           fullWidth
           value={postData.tags}
           onChange={(event) =>
-            setPostData({ ...postData, tags: event.target.value })
+            setPostData({ ...postData, tags: event.target.value.split(",") })
           }
         />
         <div className={classes.fileInput}>

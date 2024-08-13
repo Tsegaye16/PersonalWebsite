@@ -16,7 +16,7 @@ import moment from "moment";
 import { useDispatch } from "react-redux";
 import useStyle from "./style";
 import { PostType } from "../../../types/types";
-import { deletePost } from "../../../actions/posts";
+import { deletePost, likePost } from "../../../actions/posts";
 import { AppDispatch } from "src";
 
 interface PostProps {
@@ -61,15 +61,21 @@ const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
         {post.title}
       </Typography>
       <CardContent>
-        <Typography variant="h5" gutterBottom>
+        <Typography variant="body2" color="textSecondary" component="p">
           {post.message}
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button size="small" color="primary" onClick={() => {}}>
+        <Button
+          size="small"
+          color="primary"
+          onClick={() => {
+            dispatch(likePost(post._id));
+          }}
+        >
           <ThumbUpAltIcon fontSize="small" />
-          Like
-          {post.likeCount}
+          &nbsp; Like &nbsp;
+          {`${post.likeCount}`}
         </Button>
         <Button
           size="small"

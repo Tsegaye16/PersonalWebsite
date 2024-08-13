@@ -1,10 +1,18 @@
 import { Dispatch } from "redux";
 import * as api from "../api";
+import {
+  FETCH_ALL,
+  CREATE,
+  UPDATE,
+  DELETE,
+  LIKE,
+} from "../constants/actionTypes";
+
 // Action Creators
 export const getPosts = () => async (dispatch: any) => {
   try {
     const { data } = await api.fetchPosts();
-    dispatch({ type: "FETCH_ALL", payload: data });
+    dispatch({ type: FETCH_ALL, payload: data });
   } catch (error: any) {
     console.log(error.message);
   }
@@ -13,7 +21,7 @@ export const getPosts = () => async (dispatch: any) => {
 export const createPost = (post: any) => async (dispatch: Dispatch) => {
   try {
     const { data } = await api.createPost(post);
-    dispatch({ type: "CREATE", payload: data });
+    dispatch({ type: CREATE, payload: data });
   } catch (error: any) {
     console.log(error.message);
   }
@@ -24,7 +32,7 @@ export const updatePost =
     try {
       const { data } = await api.updatePost(id, post);
 
-      dispatch({ type: "UPDATE", payload: data });
+      dispatch({ type: UPDATE, payload: data });
     } catch (err: any) {
       console.log("Error meta", err.message);
     }
@@ -33,7 +41,16 @@ export const updatePost =
 export const deletePost = (id: any) => async (dispatch: Dispatch) => {
   try {
     await api.deletePost(id);
-    dispatch({ type: "DELETE", payload: id });
+    dispatch({ type: DELETE, payload: id });
+  } catch (err: any) {
+    console.log(err.message);
+  }
+};
+
+export const likePost = (id: any) => async (dispatch: Dispatch) => {
+  try {
+    const { data } = await api.likePost(id);
+    dispatch({ type: LIKE, payload: data });
   } catch (err: any) {
     console.log(err.message);
   }
