@@ -5,6 +5,7 @@ import { configureStore } from "@reduxjs/toolkit";
 //import thunk from "redux-thunk"; // No curly braces needed here
 import App from "./App";
 import reducers from "./reducers";
+import "./index.css";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 

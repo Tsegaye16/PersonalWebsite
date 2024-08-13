@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextField, Button, Typography, Paper } from "@mui/material";
 import FileBase from "react-file-base64";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
 import useStyle from "./style";
-import { createPost } from "../../actions/posts";
+import { createPost, updatePost } from "../../actions/posts";
 import { AppDispatch } from "src";
 
-const Form: React.FC = () => {
+interface FormProps {
+  currentId: string | null;
+  setCurrentId: React.Dispatch<React.SetStateAction<string | null>>;
+}
+
+const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
+  const post = useSelector((state: any) =>
+    currentId ? state.posts.find((p: any) => p._id === currentId) : null
+  );
   const [postData, setPostData] = useState<any>({
     creator: "",
     title: "",
@@ -16,11 +25,36 @@ const Form: React.FC = () => {
   });
   const classes = useStyle();
   const dispatch = useDispatch<AppDispatch>();
-  const handleSubmit = (event: any) => {
+
+  useEffect(() => {
+    if (post) {
+      setPostData(post);
+    }
+  }, [post]);
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(createPost(postData));
+    console.log("ID:", currentId);
+    if (currentId) {
+      console.log("jaskshj");
+
+      dispatch(updatePost(currentId, postData));
+      clear();
+    } else {
+      console.log("Posted Data:", postData);
+      dispatch(createPost(postData));
+      clear();
+    }
   };
-  const clear = (event: any) => {};
+  const clear = () => {
+    setCurrentId(null);
+    setPostData({
+      creator: "",
+      title: "",
+      message: "",
+      tags: "",
+      selectedFile: "",
+    });
+  };
   return (
     <Paper className={classes.paper}>
       <form
@@ -29,7 +63,9 @@ const Form: React.FC = () => {
         className={`${classes.root} ${classes.form}`}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6">Creating a Memory</Typography>
+        <Typography variant="h6">
+          {currentId ? "Editing" : "Creating"} a Memory
+        </Typography>
         <TextField
           name="creator"
           variant="outlined"
@@ -75,7 +111,7 @@ const Form: React.FC = () => {
             type="file"
             multimple={false}
             onDone={({ base64 }: { base64: string }) =>
-              setPostData({ ...postData, seletedFile: base64 })
+              setPostData({ ...postData, selectedFile: base64 })
             }
           />
         </div>

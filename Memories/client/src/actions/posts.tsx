@@ -18,3 +18,23 @@ export const createPost = (post: any) => async (dispatch: Dispatch) => {
     console.log(error.message);
   }
 };
+
+export const updatePost =
+  (id: any, post: any) => async (dispatch: Dispatch) => {
+    try {
+      const { data } = await api.updatePost(id, post);
+
+      dispatch({ type: "UPDATE", payload: data });
+    } catch (err: any) {
+      console.log("Error meta", err.message);
+    }
+  };
+
+export const deletePost = (id: any) => async (dispatch: Dispatch) => {
+  try {
+    await api.deletePost(id);
+    dispatch({ type: "DELETE", payload: id });
+  } catch (err: any) {
+    console.log(err.message);
+  }
+};
