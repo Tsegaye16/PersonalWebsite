@@ -10,21 +10,42 @@ import {
 } from "@material-ui/core";
 import GoogleLogin from "react-google-login";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Input from "./Input";
 
 import useStyle from "./styles";
 import Icon from "./Icon";
+import { signup, signin } from "src/actions/auth";
+
+const initialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
 const Auth: React.FC = () => {
   const classes = useStyle();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
-  const handleSubmit = () => {
+  const [formData, setFormData] = useState(initialState);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     // handle submit logic here
+    event.preventDefault();
+    if (isSignUp) {
+      dispatch(signup(formData, navigate) as any);
+    } else {
+      dispatch(signin(formData, navigate) as any);
+    }
   };
-  const handleChange = () => {
-    // handle change logic here
+  const handleChange = (event: any) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
   const handleShowPassword = () =>
@@ -36,11 +57,20 @@ const Auth: React.FC = () => {
     setShowPassword(false);
   };
   const handleLoginSuccess = async (res: any) => {
-    // handle login success logic here
-    console.log(res);
+    const result = res?.profileObj;
+    const token = res?.tokenId;
+    try {
+      dispatch({ type: "AUTH", payload: { result, token } });
+
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
   const handleLoginFailer = () => {
     // handle login failer logic here
+    // I need to log the eactual error
+
     console.log("Google sign in was unsuccessful. Please try again later.");
   };
 
@@ -102,7 +132,7 @@ const Auth: React.FC = () => {
             {isSignUp ? "Sign Up" : "Sign In"}
           </Button>
           <GoogleLogin
-            clientId="Your Google Id"
+            clientId="Your google Id"
             render={(renderProps) => {
               return (
                 <Button

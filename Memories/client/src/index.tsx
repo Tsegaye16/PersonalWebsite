@@ -22,3 +22,4 @@ root.render(
   </React.StrictMode>
 );
 export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
