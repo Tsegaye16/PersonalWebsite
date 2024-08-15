@@ -8,8 +8,8 @@ const initialState = {
 const authReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case AUTH:
-      localStorage.setItem("profile", JSON.stringify({ ...action?.data }));
-      return { ...state, authData: action?.data }; // Fixed: use action.data instead of action.payload
+      localStorage.setItem("profile", JSON.stringify({ ...action?.payload }));
+      return { ...state, authData: action?.payload }; // Fixed: use action.data instead of action.payload
     case LOGOUT:
       localStorage.clear();
       return { ...state, authData: null }; // Fixed: set authData to null instead of auth

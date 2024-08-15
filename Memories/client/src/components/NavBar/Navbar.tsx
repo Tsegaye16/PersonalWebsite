@@ -6,6 +6,7 @@ import { Avatar, Button, Toolbar } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import memories from "../../images/memories.png";
 import useStyles from "./styles";
+import { jwtDecode } from "jwt-decode";
 
 const Navbar: React.FC = () => {
   const classes = useStyles();
@@ -19,6 +20,17 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     const token = user?.token;
+
+    if (token) {
+      const decodedToken: any = jwtDecode(token);
+
+      // If token is expired, log out the user
+      if (decodedToken.exp * 1000 < new Date().getTime()) {
+        logout();
+      }
+    }
+
+    // Update the user state if the token is still valid
     const profile = localStorage.getItem("profile");
     setUser(profile ? JSON.parse(profile) : null);
   }, [location]);
@@ -27,10 +39,10 @@ const Navbar: React.FC = () => {
     dispatch({ type: "LOGOUT" });
     navigate("/");
     setUser(null);
+    localStorage.removeItem("profile");
   };
 
   return (
-    // <div>Nav bar</div>
     <AppBar position="static" color="inherit" className={classes.appBar}>
       <div className={classes.brandContainer}>
         <Typography
@@ -50,14 +62,14 @@ const Navbar: React.FC = () => {
         />
       </div>
       <Toolbar className={classes.toolbar}>
-        {user ? (
+        {user?.result ? (
           <div className={classes.profile}>
             <Avatar
               className={classes.purple}
               alt={user.result.name}
-              src={user.result.imageUrl}
+              src={user.result.imageUrl || ""}
             >
-              {user.result.name.charAt(0)}
+              {user.result.name?.charAt(0) || ""}
             </Avatar>
             <Typography className={classes.userName} variant="h6">
               {user.result.name}

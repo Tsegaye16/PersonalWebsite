@@ -132,7 +132,7 @@ const Auth: React.FC = () => {
             {isSignUp ? "Sign Up" : "Sign In"}
           </Button>
           <GoogleLogin
-            clientId="Your google Id"
+            clientId="Your Google Id"
             render={(renderProps) => {
               return (
                 <Button

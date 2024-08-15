@@ -5,6 +5,6 @@ export interface PostType {
   creator: string;
   tags: string[];
   selectedFile: string;
-  likeCount: number;
+  likes: number[];
   createdAt: string;
 }

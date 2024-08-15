@@ -17,7 +17,6 @@ const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
     currentId ? state.posts.find((p: any) => p._id === currentId) : null
   );
   const [postData, setPostData] = useState<any>({
-    creator: "",
     title: "",
     message: "",
     tags: "",
@@ -27,30 +26,31 @@ const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
   const fileInputRef = useRef<any>(null);
   const classes = useStyle();
   const dispatch = useDispatch<AppDispatch>();
+  const user = JSON.parse(localStorage.getItem("profile") || "null");
 
   useEffect(() => {
     if (post) {
       setPostData(post);
     }
   }, [post]);
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("ID:", currentId);
-    if (currentId) {
-      console.log("jaskshj");
 
-      dispatch(updatePost(currentId, postData));
+    if (!user?.result?.name) return;
+
+    if (!currentId) {
+      dispatch(createPost({ ...postData, name: user.result.name }));
       clear();
     } else {
-      console.log("Posted Data:", postData);
-      dispatch(createPost(postData));
+      dispatch(updatePost(currentId, { ...postData, name: user.result.name }));
       clear();
     }
   };
+
   const clear = () => {
     setCurrentId(null);
     setPostData({
-      creator: "",
       title: "",
       message: "",
       tags: "",
@@ -60,6 +60,17 @@ const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
       fileInputRef.current.value = ""; // Reset the file input value
     }
   };
+
+  if (!user?.result?.name) {
+    return (
+      <Paper className={classes.paper}>
+        <Typography variant="h6" align="center">
+          Please Sign In to create your own memories and like others' memories.
+        </Typography>
+      </Paper>
+    );
+  }
+
   return (
     <Paper className={classes.paper}>
       <form
@@ -71,16 +82,7 @@ const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
         <Typography variant="h6">
           {currentId ? "Editing" : "Creating"} a Memory
         </Typography>
-        <TextField
-          name="creator"
-          variant="outlined"
-          label="Creator"
-          fullWidth
-          value={postData.creator}
-          onChange={(event) =>
-            setPostData({ ...postData, creator: event.target.value })
-          }
-        />
+
         <TextField
           name="title"
           variant="outlined"
@@ -114,7 +116,7 @@ const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
         <div className={classes.fileInput}>
           <FileBase
             type="file"
-            multimple={false}
+            multiple={false}
             onDone={({ base64 }: { base64: string }) =>
               setPostData({ ...postData, selectedFile: base64 })
             }

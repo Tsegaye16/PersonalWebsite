@@ -22,9 +22,7 @@ export default (posts: PostType[] = [], action: any) => {
       );
     case LIKE:
       return posts.map((post) =>
-        post._id === action.payload._id
-          ? { ...post, likes: post.likeCount + 1 }
-          : post
+        post._id === action.payload._id ? action.payload : post
       );
     default:
       return posts;
