@@ -5,26 +5,34 @@ import {
   UPDATE,
   DELETE,
   LIKE,
+  FETCH_BY_SEARCH,
 } from "../constants/actionTypes";
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default (posts: PostType[] = [], action: any) => {
+export default (state: PostType[] = [], action: any) => {
   switch (action.type) {
     case FETCH_ALL:
-      return action.payload;
+      return {
+        ...state,
+        posts: action.payload.data,
+        currentPage: action.payload.currentPag,
+        numberOfPages: action.payload.numberOfPages,
+      };
+    case FETCH_BY_SEARCH:
+      return { ...state, posts: action.payload };
     case DELETE:
-      return posts.filter((post) => post._id !== action.payload);
+      return state.filter((post) => post._id !== action.payload);
     case CREATE:
-      return [...posts, action.payload];
+      return [...state, action.payload];
     case UPDATE:
-      return posts.map((post) =>
+      return state.map((post) =>
         post._id === action.payload._id ? action.payload : post
       );
     case LIKE:
-      return posts.map((post) =>
+      return state.map((post) =>
         post._id === action.payload._id ? action.payload : post
       );
     default:
-      return posts;
+      return state;
   }
 };

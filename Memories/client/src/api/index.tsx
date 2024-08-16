@@ -28,7 +28,13 @@ interface AuthFormData {
   password: string;
 }
 
-export const fetchPosts = () => API.get("/posts");
+export const fetchPosts = (page: any) => API.get(`/posts?page=${page}`);
+export const fetchPostsBySearch = (searchQuery: any) =>
+  API.get(
+    `/posts/search?searchQuery=${searchQuery.search || "none"}&tags=${
+      searchQuery.tags
+    }`
+  );
 export const createPost = (newPost: Post) => API.post("/posts", newPost);
 export const likePost = (id: string) => API.patch(`/posts/${id}/likePost`);
 export const updatePost = (id: string, updatedPost: Post) =>

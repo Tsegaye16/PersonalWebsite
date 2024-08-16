@@ -71,7 +71,7 @@ const Auth: React.FC = () => {
     // handle login failer logic here
     // I need to log the eactual error
 
-    console.log("Google sign in was unsuccessful. Please try again later.");
+    alert("Google sign in was unsuccessful. Please try again later.");
   };
 
   return (
@@ -132,7 +132,7 @@ const Auth: React.FC = () => {
             {isSignUp ? "Sign Up" : "Sign In"}
           </Button>
           <GoogleLogin
-            clientId="Your Google Id"
+            clientId="Your Google ID"
             render={(renderProps) => {
               return (
                 <Button

@@ -6,17 +6,33 @@ import {
   UPDATE,
   DELETE,
   LIKE,
+  FETCH_BY_SEARCH,
 } from "../constants/actionTypes";
 
 // Action Creators
-export const getPosts = () => async (dispatch: any) => {
+export const getPosts = (page: any) => async (dispatch: any) => {
   try {
-    const { data } = await api.fetchPosts();
+    const { data } = await api.fetchPosts(page);
     dispatch({ type: FETCH_ALL, payload: data });
   } catch (error: any) {
     console.log(error.message);
   }
 };
+
+export const getPostsBySearch =
+  (searchQuery: any) => async (dispatch: Dispatch) => {
+    try {
+      const {
+        data: { data },
+      } = await api.fetchPostsBySearch(searchQuery);
+
+      console.log("Data:", data);
+      dispatch({ type: FETCH_BY_SEARCH, payload: data });
+      //dispatch({ type: END_LOADING });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 export const createPost = (post: any) => async (dispatch: Dispatch) => {
   try {
