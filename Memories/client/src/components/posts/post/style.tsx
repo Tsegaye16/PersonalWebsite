@@ -2,10 +2,11 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles({
   media: {
-    height: 0,
-    paddingTop: "56.25%",
+    paddingTop: "56.25%", // 16:9 aspect ratio
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     backgroundBlendMode: "darken",
+    height: 0, // Maintain aspect ratio based on paddingTop
+    width: "100%", // Ensure it takes full width
   },
   border: {
     border: "solid",
@@ -43,6 +44,7 @@ export default makeStyles({
   },
   title: {
     padding: "0 16px",
+    textAlign: "left",
   },
   cardActions: {
     padding: "0 16px 8px 16px",

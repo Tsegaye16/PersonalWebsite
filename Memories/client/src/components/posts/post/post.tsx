@@ -6,6 +6,7 @@ import {
   CardMedia,
   Button,
   Typography,
+  ButtonBase,
 } from "@mui/material";
 // import ThumbUpAltIcon from "@mui/material";
 // import DeleteIcon from "@mui/material";
@@ -13,12 +14,13 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
 import moment from "moment";
+import { ThumbUpAltOutlined } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import useStyle from "./style";
 import { PostType } from "../../../types/types";
 import { deletePost, likePost } from "../../../actions/posts";
 import { AppDispatch } from "src";
-import { ThumbUpAltOutlined } from "@mui/icons-material";
 
 interface PostProps {
   post: PostType;
@@ -28,6 +30,7 @@ interface PostProps {
 const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
   const classes = useStyle();
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("profile") || "null");
 
   const Likes = () => {
@@ -58,48 +61,64 @@ const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
     );
   };
 
+  const openPost = () => {
+    console.log("Image", post.selectedFile);
+    navigate(`/posts/${post._id}`);
+  };
+
   return (
     <Card className={classes.card} raised elevation={6}>
-      <CardMedia
-        className={classes.media}
-        image={
-          post.selectedFile ||
-          "https://storage.googleapis.com/regalflowers-cdn/mobile-img-2023-11-Regalflowers-scaled.webp"
-        }
-        title={post.title}
-      />
-      <div className={classes.overlay}>
-        <Typography variant="h6">{post.creator}</Typography>
-        <Typography variant="body2">
-          {moment(post.createdAt).fromNow()}
-        </Typography>
-      </div>
-      {(user?.result?.googleId === post?.creator ||
-        user?.result?.name === post?.creator) && (
-        <div className={classes.overlay2}>
-          <Button
-            onClick={() => setCurrentId(post._id)}
-            style={{ color: "white" }}
-            size="small"
-          >
-            <MoreHorizIcon fontSize="medium" />
-          </Button>
+      <ButtonBase
+        className={classes.cardActions}
+        onClick={openPost}
+        style={{ width: "100%", display: "block" }}
+      >
+        <CardMedia
+          className={classes.media}
+          image={
+            post.selectedFile ||
+            "https://storage.googleapis.com/regalflowers-cdn/mobile-img-2023-11-Regalflowers-scaled.webp"
+          }
+          title={post.title}
+        />
+        <div className={classes.overlay}>
+          <Typography variant="h6">{post.creator}</Typography>
+          <Typography variant="body2">
+            {moment(post.createdAt).fromNow()}
+          </Typography>
         </div>
-      )}
+        {(user?.result?.googleId === post?.creator ||
+          user?.result?.name === post?.creator) && (
+          <div className={classes.overlay2}>
+            <Button
+              onClick={() => setCurrentId(post._id)}
+              style={{ color: "white" }}
+              size="small"
+            >
+              <MoreHorizIcon fontSize="medium" />
+            </Button>
+          </div>
+        )}
 
-      <div className={classes.details}>
-        <Typography variant="body2" color="textSecondary">
-          {post.tags.map((tag) => `#${tag} `)}
+        <div className={classes.details}>
+          <Typography variant="body2" color="textSecondary">
+            {post.tags.map((tag) => `#${tag} `)}
+          </Typography>
+        </div>
+        <Typography className={classes.title} variant="h5" gutterBottom>
+          {post.title}
         </Typography>
-      </div>
-      <Typography className={classes.title} variant="h5" gutterBottom>
-        {post.title}
-      </Typography>
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {post.message}
-        </Typography>
-      </CardContent>
+        <CardContent>
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            component="p"
+            style={{ textAlign: "left" }}
+          >
+            {post.message}
+          </Typography>
+        </CardContent>
+      </ButtonBase>
       <CardActions className={classes.cardActions}>
         <Button
           size="small"

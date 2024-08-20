@@ -15,11 +15,13 @@ interface FormProps {
 }
 
 const Posts: React.FC<FormProps> = ({ setCurrentId }) => {
-  const { posts } = useSelector((state: RootState) => state.posts) as any;
-  console.log("posts :", posts);
-  const classes = useStyle();
+  const { posts, isLoading } = useSelector(
+    (state: RootState) => state.posts
+  ) as any;
 
-  return !posts?.length ? (
+  const classes = useStyle();
+  if (!posts.length && !isLoading) return <p>No posts yet</p>;
+  return isLoading ? (
     <CircularProgress />
   ) : (
     <Grid

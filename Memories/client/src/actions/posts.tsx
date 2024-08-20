@@ -7,13 +7,28 @@ import {
   DELETE,
   LIKE,
   FETCH_BY_SEARCH,
+  START_LOADING,
+  END_LOADING,
+  FETCH_POST,
 } from "../constants/actionTypes";
 
 // Action Creators
+export const getPost = (id: any) => async (dispatch: any) => {
+  try {
+    dispatch({ type: START_LOADING });
+    const { data } = await api.fetchPost(id);
+    dispatch({ type: FETCH_POST, payload: data });
+    dispatch({ type: END_LOADING });
+  } catch (error: any) {
+    console.log(error.message);
+  }
+};
 export const getPosts = (page: any) => async (dispatch: any) => {
   try {
+    dispatch({ type: START_LOADING });
     const { data } = await api.fetchPosts(page);
     dispatch({ type: FETCH_ALL, payload: data });
+    dispatch({ type: END_LOADING });
   } catch (error: any) {
     console.log(error.message);
   }
@@ -22,26 +37,30 @@ export const getPosts = (page: any) => async (dispatch: any) => {
 export const getPostsBySearch =
   (searchQuery: any) => async (dispatch: Dispatch) => {
     try {
+      dispatch({ type: START_LOADING });
       const {
         data: { data },
       } = await api.fetchPostsBySearch(searchQuery);
 
-      console.log("Data:", data);
       dispatch({ type: FETCH_BY_SEARCH, payload: data });
-      //dispatch({ type: END_LOADING });
+      dispatch({ type: END_LOADING });
     } catch (error) {
       console.log(error);
     }
   };
 
-export const createPost = (post: any) => async (dispatch: Dispatch) => {
-  try {
-    const { data } = await api.createPost(post);
-    dispatch({ type: CREATE, payload: data });
-  } catch (error: any) {
-    console.log(error.message);
-  }
-};
+export const createPost =
+  (post: any, navigate: any) => async (dispatch: Dispatch) => {
+    try {
+      dispatch({ type: START_LOADING });
+      const { data } = await api.createPost(post);
+      navigate(`/posts/${data._id}`);
+      dispatch({ type: CREATE, payload: data });
+      dispatch({ type: END_LOADING });
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
 
 export const updatePost =
   (id: any, post: any) => async (dispatch: Dispatch) => {

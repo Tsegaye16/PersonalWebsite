@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { TextField, Button, Typography, Paper } from "@mui/material";
 import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import useStyle from "./style";
 import { createPost, updatePost } from "../../actions/posts";
@@ -14,7 +15,7 @@ interface FormProps {
 
 const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
   const post = useSelector((state: any) =>
-    currentId ? state.posts.find((p: any) => p._id === currentId) : null
+    currentId ? state.posts.posts.find((p: any) => p._id === currentId) : null
   );
   const [postData, setPostData] = useState<any>({
     title: "",
@@ -25,6 +26,7 @@ const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
 
   const fileInputRef = useRef<any>(null);
   const classes = useStyle();
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const user = JSON.parse(localStorage.getItem("profile") || "null");
 
@@ -40,7 +42,7 @@ const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
     if (!user?.result?.name) return;
 
     if (!currentId) {
-      dispatch(createPost({ ...postData, name: user.result.name }));
+      dispatch(createPost({ ...postData, name: user.result.name }, navigate));
       clear();
     } else {
       dispatch(updatePost(currentId, { ...postData, name: user.result.name }));
@@ -72,7 +74,7 @@ const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
   }
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} elevation={12}>
       <form
         autoComplete="off"
         noValidate

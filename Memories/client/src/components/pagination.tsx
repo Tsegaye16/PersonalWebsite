@@ -13,6 +13,7 @@ interface PaginationsProps {
 
 const Paginations: React.FC<PaginationsProps> = ({ page }) => {
   const classes = styles();
+  const { numberOfPages } = useSelector((state: any) => state.posts);
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     if (page) {
@@ -22,12 +23,16 @@ const Paginations: React.FC<PaginationsProps> = ({ page }) => {
   return (
     <Pagination
       classes={{ ul: classes.ul }}
-      count={5}
-      page={1}
+      count={numberOfPages}
+      page={Number(page) || 1}
       variant="outlined"
       color="primary"
       renderItem={(item) => (
-        <PaginationItem {...item} component={Link} to={`/post?pages=${``}`} />
+        <PaginationItem
+          {...item}
+          component={Link}
+          to={`/posts?page=${item.page}`}
+        />
       )}
     />
   );
