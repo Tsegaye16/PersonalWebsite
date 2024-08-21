@@ -1,0 +1,24 @@
+services:
+  new_backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5000" # Map port 5000 in the container to 5001 on your host machine
+    depends_on:
+      - mongod_db
+    env_file: ./.env
+    environment:
+      PORT: 5000
+      DATABASE_LOCAL: mongodb://mongod_db:27017/test
+
+  mongod_db:
+    container_name: new_database_container
+    image: mongo
+    volumes:
+      - mongo_new:/data/db
+    ports:
+      - "27012:27017" # Avoid conflicts with other MongoDB containers
+
+volumes:
+  mongo_new:

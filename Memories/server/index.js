@@ -20,10 +20,7 @@ app.use("/user", userRout);
 const PORT = process.env.PORT;
 
 mongoose
-  .connect(process.env.CONNECTION_ULR, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect("mongodb://mongod_db:27017/test")
   .then(() =>
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
   )
