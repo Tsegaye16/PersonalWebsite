@@ -26,7 +26,7 @@ export default makeStyles((theme) => ({
   },
   toolbar: {
     display: "flex",
-    //flexDirection: "column",
+    alignItems: "center",
     justifyContent: "flex-end",
     width: "400px",
     [theme.breakpoints.down("sm")]: {
@@ -54,7 +54,6 @@ export default makeStyles((theme) => ({
   },
   brandContainer: {
     display: "flex",
-
     alignItems: "center",
   },
   purple: {

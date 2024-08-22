@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Grid, CircularProgress } from "@mui/material";
 import Post from "./post/post";
 import useStyle from "./style";
-import { PostType } from "../../types/types";
+import { PostType } from "../../constants/types";
 
 // Define the shape of the Redux state
 interface RootState {

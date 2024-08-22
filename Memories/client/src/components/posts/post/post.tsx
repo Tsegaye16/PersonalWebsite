@@ -18,7 +18,7 @@ import { ThumbUpAltOutlined } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import useStyle from "./style";
-import { PostType } from "../../../types/types";
+import { PostType } from "../../../constants/types";
 import { deletePost, likePost } from "../../../actions/posts";
 import { AppDispatch } from "src";
 
@@ -63,7 +63,7 @@ const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
   };
 
   const openPost = () => {
-    console.log("Image", post.selectedFile);
+    //console.log("Image", post.selectedFile);
     navigate(`/posts/${post._id}`);
   };
 
@@ -82,47 +82,55 @@ const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
           }
           title={post.title}
         />
-        <div className={classes.overlay}>
-          <Typography variant="h6">{post.creator}</Typography>
-          <Typography variant="body2">
-            {moment(post.createdAt).fromNow()}
-          </Typography>
-        </div>
-        {(user?.result?.googleId === post?.creator ||
-          user?.result?.name === post?.creator) && (
-          <div className={classes.overlay2}>
-            <Button
-              onClick={() => setCurrentId(post._id)}
-              style={{ color: "white" }}
-              size="small"
-            >
-              <MoreHorizIcon fontSize="medium" />
-            </Button>
-          </div>
-        )}
-
-        <div className={classes.details}>
-          <Typography variant="body2" color="textSecondary">
-            {post.tags.map((tag) => `#${tag} `)}
-          </Typography>
-        </div>
-        <Typography className={classes.title} variant="h5" gutterBottom>
-          {post.title}
-        </Typography>
-        <CardContent>
-          <Typography
-            variant="body2"
-            color="textSecondary"
-            component="p"
-            style={{ textAlign: "left" }}
-          >
-            {isShowMore ? post.message : post.message.slice(0, 150)}
-            <div onClick={() => setShowMore(!isShowMore)}>
-              {isShowMore ? "Show less" : "...Show more"}
-            </div>
-          </Typography>
-        </CardContent>
       </ButtonBase>
+      <div className={classes.overlay}>
+        <Typography variant="h6">{post.name}</Typography>
+        <Typography variant="body2">
+          {moment(post.createdAt).fromNow()}
+        </Typography>
+      </div>
+      {(user?.result?.googleId === post?.name ||
+        user?.result?.name === post?.name) && (
+        <div className={classes.overlay2}>
+          <Button
+            onClick={() => setCurrentId(post._id)}
+            style={{ color: "white" }}
+            size="small"
+          >
+            <MoreHorizIcon fontSize="medium" />
+          </Button>
+        </div>
+      )}
+
+      <div className={classes.details}>
+        <Typography variant="body2" color="textSecondary">
+          {post.tags.map((tag) => `#${tag} `)}
+        </Typography>
+      </div>
+      <Typography className={classes.title} variant="h5" gutterBottom>
+        {post.title}
+      </Typography>
+      <CardContent>
+        <Typography
+          variant="body1"
+          color="textSecondary"
+          component="p"
+          style={{ textAlign: "left" }}
+        >
+          {isShowMore ? post.message : post.message.slice(0, 50)}
+          {post.message.length > 50 && (
+            <Typography
+              color="primary"
+              variant="body2"
+              onClick={() => setShowMore(!isShowMore)}
+              style={{ cursor: "pointer" }}
+            >
+              {isShowMore ? "Show less" : "...Show more"}
+            </Typography>
+          )}
+        </Typography>
+      </CardContent>
+
       <CardActions className={classes.cardActions}>
         <Button
           size="small"
@@ -134,8 +142,8 @@ const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
         >
           <Likes />
         </Button>
-        {(user?.result?.googleId === post?.creator ||
-          user?.result?.name === post?.creator) && (
+        {(user?.result?.googleId === post?.name ||
+          user?.result?.name === post?.name) && (
           <Button
             size="small"
             color="secondary"

@@ -123,3 +123,5 @@ export const likePost = async (req, res) => {
   });
   res.json(updatedPost);
 };
+
+export const commentPost = async (req, res) => {};

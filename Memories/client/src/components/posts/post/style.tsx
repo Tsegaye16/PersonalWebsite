@@ -2,10 +2,10 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles({
   media: {
-    paddingTop: "56.25%", // 16:9 aspect ratio
+    paddingTop: "100%",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     backgroundBlendMode: "darken",
-    height: 0, // Maintain aspect ratio based on paddingTop
+    height: "100%", // Maintain aspect ratio based on paddingTop
     width: "100%", // Ensure it takes full width
   },
   border: {
@@ -15,11 +15,11 @@ export default makeStyles({
     height: "100%",
   },
   card: {
-    display: "flex",
+    display: "inline-block",
     flexDirection: "column",
     justifyContent: "space-between",
     borderRadius: "15px",
-    height: "100%",
+    //height: "100%",
     position: "relative",
   },
   overlay: {
@@ -30,8 +30,8 @@ export default makeStyles({
   },
   overlay2: {
     position: "absolute",
-    top: "20px",
-    right: "20px",
+    top: "5px",
+    right: "5px",
     color: "white",
   },
   grid: {

@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { AppBar, Typography } from "@mui/material";
 import { Avatar, Button, Toolbar } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import memories from "../../images/memories.png";
+import memory from "../../images/memory.png";
 import useStyles from "./styles";
 import { jwtDecode } from "jwt-decode";
 
@@ -43,7 +43,14 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <AppBar position="static" color="inherit" className={classes.appBar}>
+    <AppBar
+      position="static"
+      color="inherit"
+      className={classes.appBar}
+      style={{
+        flexDirection: "row",
+      }}
+    >
       <div className={classes.brandContainer}>
         <Typography
           variant="h2"
@@ -52,10 +59,10 @@ const Navbar: React.FC = () => {
           component={Link}
           to="/"
         >
-          Memmoriess
+          Memories
         </Typography>
         <img
-          src={memories}
+          src={memory}
           alt="memories"
           height={60}
           className={classes.image}

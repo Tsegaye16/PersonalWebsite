@@ -7,7 +7,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { AppDispatch } from "src";
 import useStyle from "./styles";
 import { getPost, getPostsBySearch } from "../../actions/posts";
-import { PostType } from "../../types/types";
+import { PostType } from "../../constants/types";
+import CommentSection from "./commentSection";
 
 const PostDetails: React.FC = () => {
   const classes = useStyle();
@@ -30,7 +31,6 @@ const PostDetails: React.FC = () => {
 
   const openPost = (_id: any) => navigate(`/posts/${_id}`);
   const recommendedPosts = posts.filter(({ _id }: any) => _id !== post._id);
-  console.log("recommendedPosts", recommendedPosts);
 
   if (isLoading) {
     return (
@@ -68,7 +68,7 @@ const PostDetails: React.FC = () => {
           </Typography>
           <Divider style={{ margin: "20px 0" }} />
           <Typography variant="body1">
-            <strong>Comments - coming soon!</strong>
+            <CommentSection post={post} />
           </Typography>
           <Divider style={{ margin: "20px 0" }} />
         </div>
@@ -83,7 +83,7 @@ const PostDetails: React.FC = () => {
           />
         </div>
       </div>
-      {recommendedPosts.length && (
+      {!!recommendedPosts.length && (
         <div className={classes.section}>
           <Typography gutterBottom variant="h5">
             You might also like:
@@ -93,7 +93,7 @@ const PostDetails: React.FC = () => {
             {recommendedPosts.map(
               ({
                 title,
-                creator,
+                name,
                 message,
                 likes,
                 selectedFile,
@@ -108,7 +108,7 @@ const PostDetails: React.FC = () => {
                     {title}
                   </Typography>
                   <Typography gutterBottom variant="subtitle2">
-                    {creator}
+                    {name}
                   </Typography>
                   <Typography gutterBottom variant="subtitle2">
                     {message}

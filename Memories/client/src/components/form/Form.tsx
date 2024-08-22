@@ -108,7 +108,7 @@ const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
         <TextField
           name="tags"
           variant="outlined"
-          label="Tags"
+          label="tag_1,tag_2,tag_3"
           fullWidth
           value={postData.tags}
           onChange={(event) =>

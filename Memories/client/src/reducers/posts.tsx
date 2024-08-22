@@ -1,4 +1,4 @@
-import { PostType } from "../types/types";
+import { PostType } from "../constants/types";
 import {
   FETCH_ALL,
   FETCH_POST,
@@ -9,23 +9,9 @@ import {
   FETCH_BY_SEARCH,
   START_LOADING,
   END_LOADING,
+  COMMENT,
 } from "../constants/actionTypes";
-
-// Define the shape of the reducer state
-interface PostsState {
-  isLoading: boolean;
-  posts: PostType[];
-  post?: PostType | null;
-  currentPage?: number;
-  numberOfPages?: number;
-}
-
-// Initial state
-const initialState: PostsState = {
-  isLoading: true,
-  posts: [],
-  post: null,
-};
+import { initialState, PostsState } from "../constants/types";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state: PostsState = initialState, action: any): PostsState => {
@@ -65,6 +51,16 @@ export default (state: PostsState = initialState, action: any): PostsState => {
       return {
         ...state,
         posts: state.posts.filter((post) => post._id !== action.payload),
+      };
+    case COMMENT:
+      return {
+        ...state,
+        posts: state.posts.map((post) => {
+          if (post._id === action.payload._id) {
+            return action.payload;
+          }
+          return post;
+        }),
       };
     default:
       return state;
