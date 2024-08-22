@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardActions,
@@ -31,6 +31,7 @@ const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
   const classes = useStyle();
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+  const [isShowMore, setShowMore] = useState(false);
   const user = JSON.parse(localStorage.getItem("profile") || "null");
 
   const Likes = () => {
@@ -115,7 +116,10 @@ const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
             component="p"
             style={{ textAlign: "left" }}
           >
-            {post.message}
+            {isShowMore ? post.message : post.message.slice(0, 150)}
+            <div onClick={() => setShowMore(!isShowMore)}>
+              {isShowMore ? "Show less" : "...Show more"}
+            </div>
           </Typography>
         </CardContent>
       </ButtonBase>
