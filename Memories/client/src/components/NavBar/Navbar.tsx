@@ -52,7 +52,7 @@ const Navbar: React.FC = () => {
           component={Link}
           to="/"
         >
-          Memories
+          Memmoriess
         </Typography>
         <img
           src={memories}
