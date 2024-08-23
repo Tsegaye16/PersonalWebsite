@@ -21,7 +21,8 @@ const PORT = process.env.PORT;
 
 mongoose
   .connect(
-    "mongodb+srv://abewatsegaye16:C2eiCP6flI2xdAqM@cluster0.ttqzk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    "mongodb://localhost:27017/test"
+    // "mongodb+srv://abewatsegaye16:C2eiCP6flI2xdAqM@cluster0.ttqzk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
   )
   .then(() =>
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`))

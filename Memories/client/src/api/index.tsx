@@ -2,7 +2,8 @@ import axios from "axios";
 import { PostType, AuthFormData } from "../constants/types";
 
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || "https://memory-89zg.onrender.com",
+  baseURL: "http://localhost:5000",
+  //baseURL: process.env.REACT_APP_API_URL || "http://127.0.0.1:5001",
 });
 
 API.interceptors.request.use((req) => {

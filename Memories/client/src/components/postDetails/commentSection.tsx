@@ -6,6 +6,7 @@ import { commentPost } from "../../actions/posts";
 import useStyles from "./styles";
 import { PostType } from "src/constants/types";
 import { AppDispatch } from "src";
+
 interface PostProps {
   post: PostType;
 }
@@ -19,7 +20,7 @@ const CommentSection: React.FC<PostProps> = ({ post }) => {
   const commentsRef = useRef<HTMLDivElement>(null);
 
   const handleComment = async () => {
-    // Ensure commentPost returns the correct type
+    // Corrected to use `comment` instead of `comments`
     const newComments = await dispatch(
       commentPost(`${user?.result?.name}: ${comment}`, post._id)
     );
@@ -47,31 +48,33 @@ const CommentSection: React.FC<PostProps> = ({ post }) => {
           ))}
           <div ref={commentsRef} />
         </div>
-        <div style={{ width: "70%" }}>
-          <Typography gutterBottom variant="h6">
-            Write a comment
-          </Typography>
-          <TextField
-            fullWidth
-            rows={4}
-            variant="outlined"
-            label="Comment"
-            multiline
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          />
-          <br />
-          <Button
-            style={{ marginTop: "10px" }}
-            fullWidth
-            disabled={!comment.length}
-            color="primary"
-            variant="contained"
-            onClick={handleComment}
-          >
-            Comment
-          </Button>
-        </div>
+        {!(user?.result?.name === post?.creator) && user && (
+          <div style={{ width: "70%" }}>
+            <Typography gutterBottom variant="h6">
+              Write a comment
+            </Typography>
+            <TextField
+              fullWidth
+              rows={4}
+              variant="outlined"
+              label="Comment"
+              multiline
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+            <br />
+            <Button
+              style={{ marginTop: "10px" }}
+              fullWidth
+              disabled={!comment.length}
+              color="primary"
+              variant="contained"
+              onClick={handleComment}
+            >
+              Comment
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

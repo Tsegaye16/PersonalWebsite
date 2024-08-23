@@ -18,7 +18,7 @@ export const signup =
     try {
       const { data } = await api.signUp(formData); // Ensure the API method is named correctly
       dispatch({ type: AUTH, payload: data });
-      navigate("/");
+      navigate("/login");
     } catch (err) {
       console.log(err);
     }

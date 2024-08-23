@@ -2,11 +2,10 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles({
   media: {
-    paddingTop: "100%",
+    height: 0,
+    paddingTop: "56.25%",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     backgroundBlendMode: "darken",
-    height: "100%", // Maintain aspect ratio based on paddingTop
-    width: "100%", // Ensure it takes full width
   },
   border: {
     border: "solid",
@@ -19,6 +18,7 @@ export default makeStyles({
     flexDirection: "column",
     justifyContent: "space-between",
     borderRadius: "15px",
+    width: "100%",
     //height: "100%",
     position: "relative",
   },
@@ -44,11 +44,14 @@ export default makeStyles({
   },
   title: {
     padding: "0 16px",
-    textAlign: "left",
   },
   cardActions: {
     padding: "0 16px 8px 16px",
     display: "flex",
     justifyContent: "space-between",
+  },
+  cardAction: {
+    display: "block",
+    textAlign: "initial",
   },
 });

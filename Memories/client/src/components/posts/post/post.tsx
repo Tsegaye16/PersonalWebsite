@@ -84,13 +84,13 @@ const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
         />
       </ButtonBase>
       <div className={classes.overlay}>
-        <Typography variant="h6">{post.name}</Typography>
+        <Typography variant="h6">{post.creator}</Typography>
         <Typography variant="body2">
           {moment(post.createdAt).fromNow()}
         </Typography>
       </div>
-      {(user?.result?.googleId === post?.name ||
-        user?.result?.name === post?.name) && (
+      {(user?.result?.googleId === post?.creator ||
+        user?.result?.name === post?.creator) && (
         <div className={classes.overlay2}>
           <Button
             onClick={() => setCurrentId(post._id)}
@@ -110,7 +110,7 @@ const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
       <Typography className={classes.title} variant="h5" gutterBottom>
         {post.title}
       </Typography>
-      <CardContent>
+      <CardContent className={classes.cardActions}>
         <Typography
           variant="body1"
           color="textSecondary"
@@ -142,8 +142,8 @@ const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
         >
           <Likes />
         </Button>
-        {(user?.result?.googleId === post?.name ||
-          user?.result?.name === post?.name) && (
+        {(user?.result?.googleId === post?.creator ||
+          user?.result?.name === post?.creator) && (
           <Button
             size="small"
             color="secondary"

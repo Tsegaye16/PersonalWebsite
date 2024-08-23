@@ -2,7 +2,7 @@ export interface PostType {
   _id: string;
   title: string;
   message: string;
-  name: string;
+  creator: string;
   tags: string[];
   comments: string[];
   selectedFile: string;

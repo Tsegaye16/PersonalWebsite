@@ -93,7 +93,7 @@ const PostDetails: React.FC = () => {
             {recommendedPosts.map(
               ({
                 title,
-                name,
+                creator,
                 message,
                 likes,
                 selectedFile,
@@ -108,7 +108,7 @@ const PostDetails: React.FC = () => {
                     {title}
                   </Typography>
                   <Typography gutterBottom variant="subtitle2">
-                    {name}
+                    {creator}
                   </Typography>
                   <Typography gutterBottom variant="subtitle2">
                     {message}

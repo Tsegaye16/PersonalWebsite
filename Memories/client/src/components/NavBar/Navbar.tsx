@@ -93,7 +93,7 @@ const Navbar: React.FC = () => {
         ) : (
           <Button
             component={Link}
-            to="/auth"
+            to="/login"
             variant="contained"
             color="primary"
           >
