@@ -49,24 +49,26 @@ const Navbar: React.FC = () => {
       className={classes.appBar}
       style={{
         flexDirection: "row",
+        width: "100%",
       }}
     >
       <div className={classes.brandContainer}>
-        <Typography
-          variant="h2"
-          align="center"
-          className={classes.heading}
-          component={Link}
-          to="/"
-        >
-          Memories
-        </Typography>
         <img
           src={memory}
           alt="memories"
-          height={60}
+          height={40}
           className={classes.image}
         />
+        <Typography
+          variant="h4"
+          align="center"
+          className={classes.heading}
+          component={Link}
+          style={{ marginLeft: "30px" }}
+          to="/"
+        >
+          Campuses Memories
+        </Typography>
       </div>
       <Toolbar className={classes.toolbar}>
         {user?.result ? (
@@ -95,9 +97,9 @@ const Navbar: React.FC = () => {
             component={Link}
             to="/login"
             variant="contained"
-            color="primary"
+            style={{ backgroundColor: "#fb8500" }}
           >
-            Sign In
+            Sign In / Sign Up
           </Button>
         )}
       </Toolbar>

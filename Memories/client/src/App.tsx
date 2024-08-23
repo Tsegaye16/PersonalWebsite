@@ -11,7 +11,7 @@ const App: React.FC = () => {
   const user = JSON.parse(localStorage.getItem("profile") || "null");
   return (
     <BrowserRouter>
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" style={{ padding: "0" }}>
         <Navbar />
         <Routes>
           <Route path="/" element={<Navigate to="/posts" />} />

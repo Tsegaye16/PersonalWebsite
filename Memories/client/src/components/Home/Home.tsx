@@ -59,7 +59,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <Grow in>
+    <Grow in style={{ backgroundColor: "" }}>
       <Container maxWidth="xl">
         <Grid
           className={classes.gridContainer}
